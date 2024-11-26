@@ -1,4 +1,4 @@
-# Bad-Pdf
+# Bad-Pdf Updated (For researching uses, already patched)
 
 Bad-PDF create malicious PDF file to steal NTLM(NTLMv1/NTLMv2) Hashes from windows machines, it utilize vulnerability disclosed by checkpoint team to create the malicious PDF file. Bad-Pdf reads the NTLM hashes using Responder listener.
 
